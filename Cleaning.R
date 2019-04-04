@@ -25,6 +25,8 @@ head(music)
 
 #Move Lyrics into a separate vector
 
+#Create Decade Variable
+
 #Experiment with colors
 #Experiment with shapes/outlines
 #Side-by-side
