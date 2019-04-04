@@ -3,9 +3,9 @@ library(dplyr)
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/rShinyProject/master/data/billboard_lyrics_1964-2015.csv")
 
-#Filter the Years 
-music <- filter(music, "Year" < 2019)
-music <- filter(music, "Year" > 1967)
+#Filter the Years: 1965-2015
+music <- filter(music, "Year" < 2016)
+music <- filter(music, "Year" > 1964)
 
 #Keep to variables we want
 music <- slice(music, 1:5) #Year, Rank, Song, Artist, Lyrics
