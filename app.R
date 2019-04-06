@@ -1,44 +1,38 @@
 library(shiny)
-require(wordcloud2, geniusr, tidytext, tidyverse)
-
+library (wordcloud2)
+#decade artist rank 
+# Define UI----
 ui <- fluidPage(
-  titlePanel("LyricsCloud"),
+  titlePanel("Wordcloud for Billboard Chart Top 100"),
   sidebarLayout(
     sidebarPanel(
-      helpText("Choose the artist/year/decade")
+      textInput("artist", "Type an artist:",
+                value = "Artist"),
+      actionButton("update", "Change"),
+      checkboxGroupInput("year", h3("Select decades:"),
+                         choices = list("1965 - 1975" = 1,
+                                        "1976 - 1985" = 2,
+                                        "1986 - 1995" = 3,
+                                        "1996 - 2005" = 4,
+                                        "2006 - 2015" = 5),
+                         selected = c (1,5)),
+      sliderInput("rank", h3("Rank selections:"),
+                  min = 1, max = 100, value = c(1,100)),
+      hr(),
+      sliderInput("freq",
+                  "Minimum Frequency:",
+                  min = 1,  max = 50, value = 15)
     ),
-    mainPanel()
+    mainPanel(
+      plotOutput("plot")
+    )
   )
 )
 
-server <- function(input, output){
-    
-    terms <- reactive({
-      
-      input$update
-      
-      isolate({
-        withProgress({
-          setProgress(message = "Processing...")
-          input$selection
-        })
-      })
-    })
-    
-    
-    wordcloud_rep <- repeatable(wordcloud)
-    
-    output$plot <- renderPlot({
-      v <- terms()
-      wordcloud_rep(names(v), v, scale=c(4,0.5),
-                    min.freq = input$freq, max.words=input$max,
-                    colors=brewer.pal(8, "Dark2"))
-    })
-  
-  shinyApp(ui, server)
+# Define server logic ----
+server <- function (input,output){
   
 }
 
-shinyApp(ui=ui, server=server)
-
-
+# Run the app ----
+shinyApp(ui = ui, server = server)
