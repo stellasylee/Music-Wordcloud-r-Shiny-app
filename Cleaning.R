@@ -11,12 +11,20 @@ library(dplyr)     # contains functions for data manipulation
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
 
 #Filter the Years 
-#music <- filter(music, "Year" < 2016)
-#music <- filter(music, "Year" > 1964)
+#music <- filter(music, "Year" < 2019)
+#music <- filter(music, "Year" > 1967)
 
-#Keep to variables we want
-#music <- slice(music, 1:5) #Year, Rank, Song, Artist, Lyrics #not working to remove Source
-head(music)
+#Remove "Source" column:
+music <- music[,-6]
+
+#Rename "Song" column to more descriptive "Title"
+names(music)[2]<-"Title"
+
+dim(music)
+
+#Experiment with colors
+#Experiment with shapes/outlines
+#Side-by-side
 
 #Need a function to interactively create a dataframe (demoFreq) including word and freq in each column
 #will be applied inside the server
@@ -26,7 +34,3 @@ head(music)
 #Move Lyrics into a separate vector
 
 #Create Decades?
-
-#Experiment with colors
-#Experiment with shapes/outlines
-#Side-by-side
