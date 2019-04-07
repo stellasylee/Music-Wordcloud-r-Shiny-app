@@ -27,6 +27,11 @@ dim(music)
 #Side-by-side
 
 #Need a function to interactively create a dataframe (demoFreq) including word and freq in each column
+
+makeCloud <- function(lyricsCol) {
+
+}
+
 #will be applied inside the server
 #Have the default one done beforehand (for all the data)
 #Column->unlist? takes a vector and collapses into character string->tally the words in that string
