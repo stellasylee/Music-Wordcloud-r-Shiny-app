@@ -29,7 +29,7 @@ dim(music)
 #Need a function to interactively create a dataframe (demoFreq) including word and freq in each column
 
 makeCloud <- function(lyricsCol) {
-  paste(lyricsCol, collapse = '')
+  wordcloud(paste(lyricsCol, collapse = ''))
   }
 
 #will be applied inside the server
