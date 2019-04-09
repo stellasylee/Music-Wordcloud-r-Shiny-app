@@ -15,10 +15,6 @@ library(wordcloud)
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
 
-#Filter the Years (unnecessary for this dataset)
-#music <- filter(music, "Year" < 2019)
-#music <- filter(music, "Year" > 1967)
-
 #Remove "Source" column:
 music <- music[,-6]
 
@@ -32,48 +28,22 @@ music$Decade[music$Year<1995]<-3
 music$Decade[music$Year<1985]<-2
 music$Decade[music$Year<1975]<-1
 
-###CLEANING THE TEXT
-text<-(paste(music$Lyrics, collapse = ''))
-# Make into a corpus so we can use tm commands
-docs <- Corpus(VectorSource(text))
-# Convert the text to lower case
-docs <- tm_map(docs, content_transformer(tolower))
-# Remove numbers
-docs <- tm_map(docs, removeNumbers)
-# Remove english common stopwords
-docs <- tm_map(docs, removeWords, stopwords("english"))
-# Remove your own stop word
-# specify your stopwords as a character vector
-docs <- tm_map(docs, removeWords, c("instrumental")) 
-# Remove punctuations
-docs <- tm_map(docs, removePunctuation)
-# Eliminate extra white spaces
-docs <- tm_map(docs, stripWhitespace)
-
 ##List of Artists
 artists<-unique(music$Artist)
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
-  #filters the music$Lyrics column accordingly,
-  #and calls makeCloud to make a wordcloud from the filtered column
+#filters the music$Lyrics column accordingly,
+#and calls makeCloud to make a wordcloud from the filtered column
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
- if(artist!="Artist") temp<-filter(music, Artist%in%music$Artist[grep(tolower(artist), music$Artist)])
-  temp<-filter(music, Rank>=startRank)
-  temp<-filter(music, Rank<=endRank)
-  makeCloud(temp)
+  if(artist!="Artist") temp<-filter(temp, Artist%in%(grep(tolower(artist), music$Artist)))
+  temp<-filter(temp, Rank>=startRank)
+  temp<-filter(temp, Rank<=endRank)
+  text<-(paste(temp$Lyrics, collapse = ''))
+  docs <- Corpus(VectorSource(text))
+  dtm <- TermDocumentMatrix(docs)
+  m <- as.matrix(dtm)
+  v <- sort(rowSums(m),decreasing=TRUE)
+  d <- data.frame(word = names(v),freq=v)
+  return(d)
 }
-
-#makeCloud: takes a vector of character strings, 
-  #concatenates them into one character string, 
-  #and makes a wordcloud matrix from it.
-makeCloud <- function(lyricsCol) {
-text<-(paste(lyricsCol, collapse = ''))
-docs <- Corpus(VectorSource(text))
-dtm <- TermDocumentMatrix(docs)
-m <- as.matrix(dtm)
-v <- sort(rowSums(m),decreasing=TRUE)
-d <- data.frame(word = names(v),freq=v)
-return(d)
-}
-newmusic<-filter(music, "Year" > 2012)
