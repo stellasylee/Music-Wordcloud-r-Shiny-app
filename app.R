@@ -41,7 +41,7 @@ server <- function (input,output){
     isolate({
       withProgress({
         setProgress(message = "Processing corpus...")
-        getTermMatrix(input$artist, input$year, input$rank)
+        getFreqMatrix(input$artist, input$year, input$rank[1], input$rank[2])
       })
     })
   })
