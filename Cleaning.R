@@ -32,7 +32,7 @@ music$Decade[music$Year<1995]<-1985
 music$Decade[music$Year<1985]<-1975
 music$Decade[music$Year<1975]<-1965
 
-music[900:910,]
+music[2800:2810,]
 text<-(paste(music$Lyrics, collapse = ''))
 docs <- Corpus(VectorSource(text))
 # Convert the text to lower case
@@ -49,7 +49,19 @@ docs <- tm_map(docs, removePunctuation)
 # Eliminate extra white spaces
 docs <- tm_map(docs, stripWhitespace)
 
+##List of Artists
 
+#getFreqMatrix:
+getFreqMatrix<-function(artist, decade, startRank, endRank){
+  temp<-filter(music, Decade==decade)
+  temp<-filter(music, Artist==artist)
+  temp<-filter(music, Rank>=startRank)
+  temp<-filter(music, Rank<=endRank)
+  
+  makeCloud(temp)
+}
+
+#makeCloud:
 makeCloud <- function(lyricsCol) {
 text<-(paste(lyricsCol, collapse = ''))
 dtm <- TermDocumentMatrix(docs)
