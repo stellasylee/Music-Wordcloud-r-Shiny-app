@@ -36,7 +36,8 @@ artists<-unique(music$Artist)
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
-#and calls makeCloud to make a wordcloud from the filtered column
+#isolates the column of lyrics and concatenates all the character strings into one,
+#then creates a frequency table for the words in it
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
   if(artist!="Artist") temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
