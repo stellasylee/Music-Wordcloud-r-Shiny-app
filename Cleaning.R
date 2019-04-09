@@ -2,17 +2,15 @@
 #install.packages("tidyr")
 #install.packages("ggplot2")
 #install.packages("readr")
-install.packages ("tm")
-#install.packages ("wordcloud")
-#install.packages ("RColorBrewer")
+#install.packages ("tm")
+#install.packages ("wordcloud2")
 
 library(tidyr)     # contains tools to tidy data
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
 library(dplyr)     # contains functions for data manipulation
 library(tm)
-library(wordcloud)
-library(RColorBrewer)
+library(wordcloud2)
 
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
@@ -29,14 +27,9 @@ names(music)[2]<-"Title"
 
 dim(music)
 
-#Experiment with colors
-#Experiment with shapes/outlines
-#Side-by-side
-
 #Need a function to interactively create a dataframe (demoFreq) including word and freq in each column
 
-makeCloud <- function(lyricsCol) {
-text<-(paste(lyricsCol, collapse = ''))
+text<-(paste(music$Lyrics, collapse = ''))
 docs <- Corpus(VectorSource(text))
 # Convert the text to lower case
 docs <- tm_map(docs, content_transformer(tolower))
@@ -51,6 +44,10 @@ docs <- tm_map(docs, removeWords, c("blabla1", "blabla2"))
 docs <- tm_map(docs, removePunctuation)
 # Eliminate extra white spaces
 docs <- tm_map(docs, stripWhitespace)
+
+
+makeCloud <- function(lyricsCol) {
+text<-(paste(lyricsCol, collapse = ''))
 dtm <- TermDocumentMatrix(docs)
 m <- as.matrix(dtm)
 v <- sort(rowSums(m),decreasing=TRUE)
@@ -64,11 +61,3 @@ wordcloud(words = d$word, freq = d$freq, min.freq = 1,
 newmusic<-filter(music, "Year" > 2012)
 
 makeCloud(newmusic$Lyrics)
-
-#will be applied inside the server
-#Have the default one done beforehand (for all the data)
-#Column->unlist? takes a vector and collapses into character string->tally the words in that string
-
-#Move Lyrics into a separate vector
-
-#Create Decades?
