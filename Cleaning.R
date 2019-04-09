@@ -58,7 +58,7 @@ artists<-unique(music$Artist)
   #and calls makeCloud to make a wordcloud from the filtered column
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
-  temp<-filter(music, Artist==artist)
+  temp<-filter(music, Artist==tolower(artist))
   temp<-filter(music, Rank>=startRank)
   temp<-filter(music, Rank<=endRank)
   makeCloud(temp)
