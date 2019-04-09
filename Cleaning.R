@@ -45,6 +45,8 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(temp, Rank<=endRank)
   text<-(paste(temp$Lyrics, collapse = ''))
   docs <- Corpus(VectorSource(text))
+  # Remove english common stopwords
+  docs <- tm_map(docs, removeWords, stopwords("english"))
   dtm <- TermDocumentMatrix(docs)
   m <- as.matrix(dtm)
   v <- sort(rowSums(m),decreasing=TRUE)
