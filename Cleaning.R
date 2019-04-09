@@ -44,7 +44,7 @@ docs <- tm_map(docs, removeNumbers)
 docs <- tm_map(docs, removeWords, stopwords("english"))
 # Remove your own stop word
 # specify your stopwords as a character vector
-docs <- tm_map(docs, removeWords, c("blabla1", "blabla2")) 
+docs <- tm_map(docs, removeWords, c("instrumental")) 
 # Remove punctuations
 docs <- tm_map(docs, removePunctuation)
 # Eliminate extra white spaces
@@ -58,17 +58,11 @@ artists<-unique(music$Artist)
   #and calls makeCloud to make a wordcloud from the filtered column
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
- if(artist!="Artist") temp<-filter(music, Artist%in%(grep(tolower(artist), music$Artist)))
-  temp<-filter(music, Rank>=startRank)
-  temp<-filter(music, Rank<=endRank)
-  makeCloud(temp)
-}
-
-#makeCloud: takes a vector of character strings, 
-  #concatenates them into one character string, 
-  #and makes a wordcloud matrix from it.
-makeCloud <- function(lyricsCol) {
-text<-(paste(lyricsCol, collapse = ''))
+ if(artist!="Artist") temp<-filter(temp, Artist%in%(grep(tolower(artist), music$Artist)))
+  temp<-filter(temp, Rank>=startRank)
+  temp<-filter(temp, Rank<=endRank)
+text<-(paste(temp$Lyrics, collapse = ''))
+docs <- Corpus(VectorSource(text))
 dtm <- TermDocumentMatrix(docs)
 m <- as.matrix(dtm)
 v <- sort(rowSums(m),decreasing=TRUE)
