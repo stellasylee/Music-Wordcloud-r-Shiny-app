@@ -28,6 +28,9 @@ music$Decade[music$Year<1995]<-3
 music$Decade[music$Year<1985]<-2
 music$Decade[music$Year<1975]<-1
 
+#Filter out instrumental songs
+music<-filter(music, Lyrics!="instrumental")
+
 ##List of Artists
 artists<-unique(music$Artist)
 
