@@ -3,14 +3,14 @@
 #install.packages("ggplot2")
 #install.packages("readr")
 #install.packages ("tm")
-#install.packages ("wordcloud2")
+#install.packages ("wordcloud")
 
 library(tidyr)     # contains tools to tidy data
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
 library(dplyr)     # contains functions for data manipulation
 library(tm)
-library(wordcloud2)
+library(wordcloud)
 
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
@@ -25,10 +25,14 @@ music <- music[,-6]
 #Rename "Song" column to more descriptive "Title"
 names(music)[2]<-"Title"
 
-dim(music)
+#Create "Decade" column
+music$Decade<-2005
+music$Decade[music$Year<2005]<-1995
+music$Decade[music$Year<1995]<-1985
+music$Decade[music$Year<1985]<-1975
+music$Decade[music$Year<1975]<-1965
 
-#Need a function to interactively create a dataframe (demoFreq) including word and freq in each column
-
+music[900:910,]
 text<-(paste(music$Lyrics, collapse = ''))
 docs <- Corpus(VectorSource(text))
 # Convert the text to lower case
