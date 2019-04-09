@@ -1,5 +1,7 @@
+#Citation: https://shiny.rstudio.com/gallery/word-cloud.html
 library(shiny)
-library (wordcloud2)
+library (wordcloud)
+install.packages("wordcloud")
 #decade artist rank 
 # Define UI----
 ui <- fluidPage(
@@ -31,7 +33,26 @@ ui <- fluidPage(
 
 # Define server logic ----
 server <- function (input,output){
+  # Define a reactive expression for the document term matrix
+  terms <- reactive ({
+    #Change when the "update" button is pressed
+    input$update
+    # but not for anything else
+    isolate({
+      withProgress({
+        setProgress(message = "Processing corpus...")
+        getTermMatrix(input$artist, input$year, input$rank)
+      })
+    })
+  })
   
+  # Make the wordcloud drawing predictable during a session
+  wordcloud_rep <- repeatable(wordcloud())
+  output$plot <- renderPlot({
+    v <- terms()
+    wordcloud_rep(names(v), v, scale = c(4, 0.5),
+               min.freq = input$freq)
+  })
 }
 
 # Run the app ----
