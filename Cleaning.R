@@ -51,7 +51,9 @@ docs <- tm_map(docs, stripWhitespace)
 
 ##List of Artists
 
-#getFreqMatrix:
+#getFreqMatrix: takes selections for artist, decade, and start and end ranks,
+  #filters the music$Lyrics column accordingly,
+  #and calls makeCloud to make a wordcloud from the filtered column
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade==decade)
   temp<-filter(music, Artist==artist)
@@ -61,7 +63,9 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   makeCloud(temp)
 }
 
-#makeCloud:
+#makeCloud: takes a vector of character strings, 
+  #concatenates them into one character string, 
+  #and makes a wordcloud from it.
 makeCloud <- function(lyricsCol) {
 text<-(paste(lyricsCol, collapse = ''))
 dtm <- TermDocumentMatrix(docs)
