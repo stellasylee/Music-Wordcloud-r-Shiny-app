@@ -58,10 +58,17 @@ artists<-unique(music$Artist)
   #and calls makeCloud to make a wordcloud from the filtered column
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
- if(artist!="Artist") temp<-filter(temp, Artist%in%(grep(tolower(artist), music$Artist)))
-  temp<-filter(temp, Rank>=startRank)
-  temp<-filter(temp, Rank<=endRank)
-text<-(paste(temp$Lyrics, collapse = ''))
+ if(artist!="Artist") temp<-filter(music, Artist%in%music$Artist[grep(tolower(artist), music$Artist)])
+  temp<-filter(music, Rank>=startRank)
+  temp<-filter(music, Rank<=endRank)
+  makeCloud(temp)
+}
+
+#makeCloud: takes a vector of character strings, 
+  #concatenates them into one character string, 
+  #and makes a wordcloud matrix from it.
+makeCloud <- function(lyricsCol) {
+text<-(paste(lyricsCol, collapse = ''))
 docs <- Corpus(VectorSource(text))
 dtm <- TermDocumentMatrix(docs)
 m <- as.matrix(dtm)
@@ -69,7 +76,4 @@ v <- sort(rowSums(m),decreasing=TRUE)
 d <- data.frame(word = names(v),freq=v)
 return(d)
 }
-
 newmusic<-filter(music, "Year" > 2012)
-
-makeCloud(newmusic$Lyrics)
