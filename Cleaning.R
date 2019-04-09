@@ -51,6 +51,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, stripWhitespace)
 
 ##List of Artists
+artists<-unique(music$Artist)
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
   #filters the music$Lyrics column accordingly,
