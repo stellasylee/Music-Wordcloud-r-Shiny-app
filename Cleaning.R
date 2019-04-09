@@ -51,8 +51,6 @@ docs <- tm_map(docs, removeWords, c("blabla1", "blabla2"))
 docs <- tm_map(docs, removePunctuation)
 # Eliminate extra white spaces
 docs <- tm_map(docs, stripWhitespace)
-# Text stemming
-# docs <- tm_map(docs, stemDocument)
 dtm <- TermDocumentMatrix(docs)
 m <- as.matrix(dtm)
 v <- sort(rowSums(m),decreasing=TRUE)
