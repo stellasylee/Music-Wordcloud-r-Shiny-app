@@ -60,13 +60,12 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Artist==artist)
   temp<-filter(music, Rank>=startRank)
   temp<-filter(music, Rank<=endRank)
-  
   makeCloud(temp)
 }
 
 #makeCloud: takes a vector of character strings, 
   #concatenates them into one character string, 
-  #and makes a wordcloud from it.
+  #and makes a wordcloud matrix from it.
 makeCloud <- function(lyricsCol) {
 text<-(paste(lyricsCol, collapse = ''))
 dtm <- TermDocumentMatrix(docs)
@@ -74,10 +73,6 @@ m <- as.matrix(dtm)
 v <- sort(rowSums(m),decreasing=TRUE)
 d <- data.frame(word = names(v),freq=v)
 return(d)
-#set.seed(1234)
-#wordcloud(words = d$word, freq = d$freq, min.freq = 1,
-#          max.words=200, random.order=FALSE, rot.per=0.35, 
-#          colors=brewer.pal(8, "Dark2"))
 }
 
 newmusic<-filter(music, "Year" > 2012)
