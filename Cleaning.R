@@ -9,13 +9,13 @@ library(tidyr)     # contains tools to tidy data
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
 library(dplyr)     # contains functions for data manipulation
-library(tm)
+library(tm)        # text mining library
 library(wordcloud)
 
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
 
-#Filter the Years 
+#Filter the Years (unnecessary for this dataset)
 #music <- filter(music, "Year" < 2019)
 #music <- filter(music, "Year" > 1967)
 
@@ -26,14 +26,15 @@ music <- music[,-6]
 names(music)[2]<-"Title"
 
 #Create "Decade" column
-music$Decade<-2005
-music$Decade[music$Year<2005]<-1995
-music$Decade[music$Year<1995]<-1985
-music$Decade[music$Year<1985]<-1975
-music$Decade[music$Year<1975]<-1965
+music$Decade<-5
+music$Decade[music$Year<2005]<-4
+music$Decade[music$Year<1995]<-3
+music$Decade[music$Year<1985]<-2
+music$Decade[music$Year<1975]<-1
 
-music[2800:2810,]
+###CLEANING THE TEXT
 text<-(paste(music$Lyrics, collapse = ''))
+# Make into a corpus so we can use tm commands
 docs <- Corpus(VectorSource(text))
 # Convert the text to lower case
 docs <- tm_map(docs, content_transformer(tolower))
@@ -55,7 +56,7 @@ docs <- tm_map(docs, stripWhitespace)
   #filters the music$Lyrics column accordingly,
   #and calls makeCloud to make a wordcloud from the filtered column
 getFreqMatrix<-function(artist, decade, startRank, endRank){
-  temp<-filter(music, Decade==decade)
+  temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
   temp<-filter(music, Artist==artist)
   temp<-filter(music, Rank>=startRank)
   temp<-filter(music, Rank<=endRank)
