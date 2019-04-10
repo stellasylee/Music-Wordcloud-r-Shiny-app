@@ -33,6 +33,8 @@ music<-filter(music, Lyrics!="instrumental")
 
 ##List of Artists
 artists<-unique(music$Artist)
+
+#Remove non-letter characters which would cause an error in freqMatrix function
 str_replace_all(music$Lyrics, "^[abcdefghijklmnopqrstuvwxyz ]", " ")
 
 
