@@ -20,6 +20,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     p("Another paragraph explanation"),
                                     br(),
                                     br(),
+                                    div(img(src="http://people.ischool.berkeley.edu/~kbloom/music/assets/images/bh100.png", height = 239, width = 260), style="text-align: center;"),
                                     br(),
                                     br(),
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
@@ -36,7 +37,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
       textInput("artist", "Type an artist:",
                 value = "Artist"),
       actionButton("update", "Change"),
-      checkboxGroupInput("year", h3("Select decades:"),
+      checkboxGroupInput("year", h3("Select your Decade(s):"),
                          choices = list("1965 - 1975" = 1,
                                         "1976 - 1985" = 2,
                                         "1986 - 1995" = 3,
@@ -54,7 +55,9 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                   min = 1, max = 300, value = 100)
     ),
     mainPanel(
-      plotOutput("plot"))))))
+      p(strong(em("\"...another song quote.\""), "Reference song and artist")),
+      p("Want to explore? Hover over the word cloud below...give directions here"),
+      plotOutput("plot", width="100%", height = "565px"))))))
   
 
 
