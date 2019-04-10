@@ -8,12 +8,11 @@ library(wordcloud2)
 #library(glue)
 library(visNetwork)
 
-#decade artist rank 
 # Define UI----
 ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                  # First Page - Intro        
                  tabPanel("Intro",
-                          fluidPage(h1("Heading"),
+                          fluidPage(h1("Our Project"),
                                     br(),
                                     p(strong(em("\"A cool song quote...\""), "Source Song and Artist")),
                                     br(),
@@ -25,10 +24,11 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     br(),
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
                                         p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
-                                        p(strong("Sources:"), a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"))
+                                        p(strong("Data Sources:"), "INSERT LATER"),
+                                        p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                           ))),
                  
-                 # Second Page  - Love Counts       
+# Second Page  - WordCloud Generator    
                  tabPanel("WordCloud Generator",
                  fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
   sidebarLayout(
