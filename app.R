@@ -18,13 +18,16 @@ ui <- fluidPage(
                                         "1986 - 1995" = 3,
                                         "1996 - 2005" = 4,
                                         "2006 - 2015" = 5),
-                         selected = c (1,5)),
+                         selected = c (1,2,3,4,5)),
       sliderInput("rank", h3("Rank selections:"),
                   min = 1, max = 100, value = c(1,100)),
       hr(),
       sliderInput("freq",
                   "Minimum Frequency:",
-                  min = 50,  max = 150, value = 70)
+                  min = 30,  max = 150, value = 70),
+      sliderInput("max",
+                  "Maximum Number of Words:",
+                  min = 1, max = 300, value = 100)
     ),
     mainPanel(
       plotOutput("plot")
@@ -51,8 +54,8 @@ server <- function (input,output){
   #wordcloud_rep <- repeatable(wordcloud())
   output$plot <- renderPlot({
     v <- terms()
-    wordcloud(names(v), v, scale = c(4, 0.5),
-                  min.freq = input$freq)
+    wordcloud(names(v), v, scale = c(8, .2),
+              min.freq = input$freq, max.words = input$max, rot.per = 0.35)
   })
 }
 
