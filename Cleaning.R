@@ -4,7 +4,9 @@
 #install.packages("readr")
 #install.packages ("tm")
 #install.packages ("wordcloud")
+#install.packages ("string")
 
+library(string)
 library(tidyr)     # contains tools to tidy data
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
@@ -36,6 +38,9 @@ artists<-unique(music$Artist)
 
 #Remove non-letter characters which would cause an error in freqMatrix function
 str_replace_all(music$Lyrics, "^[abcdefghijklmnopqrstuvwxyz ]", " ")
+
+#Remove English stopwords
+stopwords<-list("it", "its", "itself", "what", "which", "who", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "to","then", "so", "than")
 
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
