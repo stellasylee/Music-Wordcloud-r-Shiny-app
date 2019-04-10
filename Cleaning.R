@@ -4,15 +4,14 @@
 #install.packages("readr")
 #install.packages ("tm")
 #install.packages ("wordcloud")
-#install.packages ("string")
-
-library(stringr)
+#install.packages("textreg")
 library(tidyr)     # contains tools to tidy data
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
 library(dplyr)     # contains functions for data manipulation
 library(tm)        # text mining library
 library(wordcloud)
+library(stringr)
 
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
@@ -33,23 +32,20 @@ music$Decade[music$Year<1975]<-1
 #Filter out instrumental songs
 music<-filter(music, Lyrics!="instrumental")
 
-#List of Artists used for searching valid artist input
+##List of Artists used for searching valid artist input
 artists<-unique(music$Artist)
 
-# Cleaning the lyrics
+# Cleaning the lyrics for filtering valid lyrics words
 music$Lyrics<- as.character(music$Lyrics)
 for (i in 1:nrow(music)){
-  # filter out everything that isn't a letter or a space (numbers, punctuation)
+  # filter 
+  # 1. non-alphabetic letter and whitespace for distinguishing the words
+  # 2. numbers
+  # 3. punctuations
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
+  # filter: stop words
+  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "( youre )|( it )|( its )|( itself )|( what )|( who )|( which )|( this )|( that )|( these )|( those )|( am )|( is )|( are )|( was )|( were )|( be )|( been )|( a )|( an )|( the )|( and )|( but )|( if )|( or )|( because )|( as )|( until )|( while )|( of )|( at )|( by )|( for )|( with )|( about )|( to )|( then )|( so )|( than )"," ")
 }
-
-#Remove English stopwords
-stopwords<-list("it", "its", "itself", "what", "which", "who", 
-                "this", "that", "these", "those", "am", "is", 
-                "are", "was", "were", "be", "been", "a", "an", 
-                "the", "and", "but", "if", "or", "because", 
-                "as", "until", "while", "of", "at", "by", "for", 
-                "with", "about", "to","then", "so", "than")
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
@@ -64,7 +60,5 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   docs <- Corpus(VectorSource(text))
   dtm <- TermDocumentMatrix(docs)
   m <- as.matrix(dtm)
-  v <- sort(rowSums(m),decreasing=TRUE)
-  d <- data.frame(word = names(v),freq=v)
-  return(d)
+  sort(rowSums(m),decreasing=TRUE)
 }
