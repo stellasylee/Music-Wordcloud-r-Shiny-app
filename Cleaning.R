@@ -33,7 +33,7 @@ music<-filter(music, Lyrics!="instrumental")
 
 ##List of Artists
 artists<-unique(music$Artist)
-str_replace_all(music$Lyrics, "[abcdefghijklmnopqrstuvwxyz ]", " ")
+str_replace_all(music$Lyrics, "^[abcdefghijklmnopqrstuvwxyz ]", " ")
 
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
