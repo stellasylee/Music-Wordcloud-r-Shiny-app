@@ -39,10 +39,7 @@ artists<-unique(music$Artist)
 # Cleaning the lyrics
 music$Lyrics<- as.character(music$Lyrics)
 for (i in 1:nrow(music)){
-  # filter 
-  # 1. non-alphabetic letter and whitespace for distinguishing the words
-  # 2. numbers
-  # 3. punctuations
+  # filter out everything that isn't a letter or a space (numbers, punctuation)
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
 }
 
