@@ -44,7 +44,12 @@ for (i in 1:nrow(music)){
 }
 
 #Remove English stopwords
-stopwords<-list("it", "its", "itself", "what", "which", "who", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "to","then", "so", "than")
+stopwords<-list("it", "its", "itself", "what", "which", "who", 
+                "this", "that", "these", "those", "am", "is", 
+                "are", "was", "were", "be", "been", "a", "an", 
+                "the", "and", "but", "if", "or", "because", 
+                "as", "until", "while", "of", "at", "by", "for", 
+                "with", "about", "to","then", "so", "than")
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
