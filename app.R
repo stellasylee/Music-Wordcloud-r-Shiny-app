@@ -6,6 +6,7 @@ library(tidytext)
 library(tidygraph)
 library(wordcloud2)
 library(visNetwork)
+source("Cleaning.R")
 
 # Define UI----
 ui <- navbarPage(inverse = TRUE, "LyricsCloud",
