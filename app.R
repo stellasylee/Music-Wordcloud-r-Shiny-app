@@ -1,7 +1,8 @@
 #Citation: https://shiny.rstudio.com/gallery/word-cloud.html
+#install.packages("wordcloud")
 library(shiny)
 library (wordcloud)
-install.packages("wordcloud")
+
 #decade artist rank 
 # Define UI----
 ui <- fluidPage(
@@ -23,7 +24,7 @@ ui <- fluidPage(
       hr(),
       sliderInput("freq",
                   "Minimum Frequency:",
-                  min = 1,  max = 50, value = 15)
+                  min = 50,  max = 150, value = 70)
     ),
     mainPanel(
       plotOutput("plot")
@@ -40,18 +41,18 @@ server <- function (input,output){
     # but not for anything else
     isolate({
       withProgress({
-        setProgress(message = "Processing corpus...")
+        setProgress(message = "Processing...")
         getFreqMatrix(input$artist, input$year, input$rank[1], input$rank[2])
       })
     })
   })
   
   # Make the wordcloud drawing predictable during a session
-  wordcloud_rep <- repeatable(wordcloud())
+  #wordcloud_rep <- repeatable(wordcloud())
   output$plot <- renderPlot({
     v <- terms()
-    wordcloud_rep(names(v), v, scale = c(4, 0.5),
-               min.freq = input$freq)
+    wordcloud(names(v), v, scale = c(4, 0.5),
+                  min.freq = input$freq)
   })
 }
 
