@@ -44,7 +44,7 @@ for (i in 1:nrow(music)){
   # 3. punctuations
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
   # filter: stop words
-  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "( youre )|( it )|( its )|( itself )|( what )|( who )|( which )|( this )|( that )|( these )|( those )|( am )|( is )|( are )|( was )|( were )|( be )|( been )|( a )|( an )|( the )|( and )|( but )|( if )|( or )|( because )|( as )|( until )|( while )|( of )|( at )|( by )|( for )|( with )|( about )|( to )|( then )|( so )|( than )"," ")
+  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|( youre )|( it )|( its )|( itself )|( what )|( who )|( which )|( this )|( that )|( these )|( those )|( am )|( is )|( are )|( was )|( were )|( be )|( been )|( a )|( an )|( the )|( and )|( but )|( if )|( or )|( because )|( as )|( until )|( while )|( of )|( at )|( by )|( for )|( with )|( about )|( to )|( then )|( so )|( than )"," ")
 }
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
@@ -61,4 +61,15 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   dtm <- TermDocumentMatrix(docs)
   m <- as.matrix(dtm)
   sort(rowSums(m),decreasing=TRUE)
+}
+
+#getTop20CommonWords: takes decade
+#Creates frequency table for the decade, used only for decade barplot
+getTop20CommonWords <- function (decade){
+  temp <- filter (music, music$Decade == decade)
+  text<-(paste(temp$Lyrics, collapse = ''))
+  docs <- Corpus(VectorSource(text))
+  dtm <- TermDocumentMatrix(docs)
+  m <- as.matrix(dtm)
+  head((sort(rowSums(m),decreasing=TRUE)), 20)
 }
