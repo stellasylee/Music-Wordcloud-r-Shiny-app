@@ -1,12 +1,37 @@
 #Citation: https://shiny.rstudio.com/gallery/word-cloud.html
 #install.packages("wordcloud")
 library(shiny)
-library (wordcloud)
+library(tidyverse)
+library(tidytext)
+library(tidygraph)
+library(wordcloud2)
+#library(glue)
+library(visNetwork)
 
 #decade artist rank 
 # Define UI----
-ui <- fluidPage(
-  titlePanel("Wordcloud for Billboard Chart Top 100"),
+ui <- navbarPage(inverse = TRUE, "LyricsCloud",
+                 # First Page - Intro        
+                 tabPanel("Intro",
+                          fluidPage(h1("Heading"),
+                                    br(),
+                                    p(strong(em("\"A cool song quote...\""), "Source Song and Artist")),
+                                    br(),
+                                    p("A paragraph explanation"),
+                                    p("Another paragraph explanation"),
+                                    br(),
+                                    br(),
+                                    br(),
+                                    br(),
+                                    div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
+                                        p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
+                                        p(strong("Sources:"), a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"))
+                          )
+                 )),
+                 
+                 # Second Page  - Love Counts       
+                 tabPanel("WordCloud Generator",
+                 fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
   sidebarLayout(
     sidebarPanel(
       textInput("artist", "Type an artist:",
@@ -24,7 +49,7 @@ ui <- fluidPage(
       hr(),
       sliderInput("freq",
                   "Minimum Frequency:",
-                  min = 30,  max = 150, value = 70),
+                  min = 1,  max = 150, value = 70),
       sliderInput("max",
                   "Maximum Number of Words:",
                   min = 1, max = 300, value = 100)
@@ -33,7 +58,11 @@ ui <- fluidPage(
       plotOutput("plot")
     )
   )
+ )
+ )
 )
+  
+
 
 # Define server logic ----
 server <- function (input,output){
