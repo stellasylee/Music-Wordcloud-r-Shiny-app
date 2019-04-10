@@ -5,7 +5,6 @@ library(tidyverse)
 library(tidytext)
 library(tidygraph)
 library(wordcloud2)
-#library(glue)
 library(visNetwork)
 
 # Define UI----
@@ -27,38 +26,60 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
                                         p(strong("Data Sources:"), "INSERT LATER"),
                                         p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
-                          ))),
+                                    ))),
                  
-# Second Page  - WordCloud Generator    
+                 # Second Page  - WordCloud Generator    
                  tabPanel("WordCloud Generator",
-                 fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
-  sidebarLayout(
-    sidebarPanel(
-      textInput("artist", "Type an artist:",
-                value = "Artist"),
-      actionButton("update", "Change"),
-      checkboxGroupInput("year", h3("Select your Decade(s):"),
-                         choices = list("1965 - 1975" = 1,
-                                        "1976 - 1985" = 2,
-                                        "1986 - 1995" = 3,
-                                        "1996 - 2005" = 4,
-                                        "2006 - 2015" = 5),
-                         selected = c (1,2,3,4,5)),
-      sliderInput("rank", h3("Rank selections:"),
-                  min = 1, max = 100, value = c(1,100)),
-      hr(),
-      sliderInput("freq",
-                  "Minimum Frequency:",
-                  min = 1,  max = 150, value = 70),
-      sliderInput("max",
-                  "Maximum Number of Words:",
-                  min = 1, max = 300, value = 100)
-    ),
-    mainPanel(
-      p(strong(em("\"...another song quote.\""), "Reference song and artist")),
-      p("Want to explore? Hover over the word cloud below...give directions here"),
-      plotOutput("plot", width="100%", height = "565px"))))))
-  
+                          fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        textInput("artist", "Type an artist:",
+                                                  value = "Artist"),
+                                        actionButton("update", "Change"),
+                                        checkboxGroupInput("year", h3("Select your Decade(s):"),
+                                                           choices = list("1965 - 1975" = 1,
+                                                                          "1976 - 1985" = 2,
+                                                                          "1986 - 1995" = 3,
+                                                                          "1996 - 2005" = 4,
+                                                                          "2006 - 2015" = 5),
+                                                           selected = c (1,2,3,4,5)),
+                                        sliderInput("rank", h3("Rank selections:"),
+                                                    min = 1, max = 100, value = c(1,100)),
+                                        hr(),
+                                        sliderInput("freq",
+                                                    "Minimum Frequency:",
+                                                    min = 1,  max = 150, value = 70),
+                                        sliderInput("max",
+                                                    "Maximum Number of Words:",
+                                                    min = 1, max = 300, value = 100)
+                                      ),
+                                      mainPanel(
+                                        p(strong(em("\"...another song quote.\""), "Reference song and artist")),
+                                        p("Want to explore? Hover over the word cloud below...give directions here"),
+                                        plotOutput("wordcloud", width="100%", height = "565px")))))
+                 ,
+                 # Third Page  - Barplot Generator
+                 tabPanel("Top 20 wordsfrom Different Decades",
+                          fluidPage(titlePanel("Decades Comparison"),
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        selectInput("histYear", h3("Select Decade:"), 
+                                                    choices = list("1965 - 1975" = 1,
+                                                                   "1976 - 1985" = 2,
+                                                                   "1986 - 1995" = 3,
+                                                                   "1996 - 2005" = 4,
+                                                                   "2006 - 2015" = 5),
+                                                    selected = 1)),
+                                      mainPanel(
+                                        p(strong(em("\"...another song quote.\""), "Reference song and artist")),
+                                        plotOutput(outputId = "plot"))
+                                    )
+                          )
+                 )
+)
+
+
+
 
 
 # Define server logic ----
@@ -77,11 +98,15 @@ server <- function (input,output){
   })
   
   # Make the wordcloud drawing predictable during a session
-  #wordcloud_rep <- repeatable(wordcloud())
-  output$plot <- renderPlot({
+  output$wordcloud <- renderPlot({
     v <- terms()
     wordcloud(names(v), v, scale = c(8, .2),
-              min.freq = input$freq, max.words = input$max, rot.per = 0.35)
+              min.freq = input$freq, max.words = input$max)
+  })
+  
+  # Make histogram of top 20 frequent words throughout decades
+  output$plot <- renderPlot({
+    barplot(getTop20CommonWords(input$histYear))
   })
 }
 
