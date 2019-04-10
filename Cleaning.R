@@ -36,7 +36,7 @@ music<-filter(music, Lyrics!="instrumental")
 #List of Artists used for searching valid artist input
 artists<-unique(music$Artist)
 
-# Cleaning the lyrics for filtering valid lyrics words
+# Cleaning the lyrics
 music$Lyrics<- as.character(music$Lyrics)
 for (i in 1:nrow(music)){
   # filter 
