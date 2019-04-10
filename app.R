@@ -26,8 +26,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
                                         p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
                                         p(strong("Sources:"), a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"))
-                          )
-                 )),
+                          ))),
                  
                  # Second Page  - Love Counts       
                  tabPanel("WordCloud Generator",
@@ -55,12 +54,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                   min = 1, max = 300, value = 100)
     ),
     mainPanel(
-      plotOutput("plot")
-    )
-  )
- )
- )
-)
+      plotOutput("plot"))))))
   
 
 
