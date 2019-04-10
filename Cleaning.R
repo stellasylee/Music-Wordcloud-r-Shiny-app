@@ -6,7 +6,7 @@
 #install.packages ("wordcloud")
 #install.packages ("string")
 
-library(string)
+library(stringr)
 library(tidyr)     # contains tools to tidy data
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
@@ -33,15 +33,21 @@ music$Decade[music$Year<1975]<-1
 #Filter out instrumental songs
 music<-filter(music, Lyrics!="instrumental")
 
-##List of Artists
+#List of Artists used for searching valid artist input
 artists<-unique(music$Artist)
 
-#Remove non-letter characters which would cause an error in freqMatrix function
-str_replace_all(music$Lyrics, "^[abcdefghijklmnopqrstuvwxyz ]", " ")
+# Cleaning the lyrics for filtering valid lyrics words
+music$Lyrics<- as.character(music$Lyrics)
+for (i in 1:nrow(music)){
+  # filter 
+  # 1. non-alphabetic letter and whitespace for distinguishing the words
+  # 2. numbers
+  # 3. punctuations
+  music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
+}
 
 #Remove English stopwords
 stopwords<-list("it", "its", "itself", "what", "which", "who", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "to","then", "so", "than")
-
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
@@ -54,8 +60,6 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(temp, Rank<=endRank)
   text<-(paste(temp$Lyrics, collapse = ''))
   docs <- Corpus(VectorSource(text))
-  # Remove english common stopwords
-  docs <- tm_map(docs, removeWords, stopwords("english"))
   dtm <- TermDocumentMatrix(docs)
   m <- as.matrix(dtm)
   v <- sort(rowSums(m),decreasing=TRUE)
