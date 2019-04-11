@@ -79,7 +79,7 @@ for (i in 1:nrow(music)){
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
   if(artist!="Artist"){
-    if(length(grep(tolower(artist), music$Artist))!=0)
+    if(length(grep(tolower(artist), music$Artist))<1)
   temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
   }
   temp<-filter(temp, Rank>=startRank)
