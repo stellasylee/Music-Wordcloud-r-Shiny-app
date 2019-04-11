@@ -66,7 +66,7 @@ for (i in 1:nrow(music)){
                                     ( be )|( been )|( a )|( an )|( the )|( and )|( but )|
                                     ( if )|( or )|( because )|( as )|( until )|( while )|
                                     ( of )|( at )|( by )|( for )|( with )|( about )|( to )|
-                                    ( then )|( so )|( ill )|( than )"," ")}
+                                    ( then )|( so )|( ill )|( get )|( than )"," ")}
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
