@@ -78,7 +78,10 @@ for (i in 1:nrow(music)){
 #used to generate wordclouds
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
-  if(artist!="Artist") temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
+  if(artist!="Artist"){
+    if(length(grep(tolower(artist), music$Artist))!=0)
+  temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
+  }
   temp<-filter(temp, Rank>=startRank)
   temp<-filter(temp, Rank<=endRank)
   text<-(paste(temp$Lyrics, collapse = ''))
