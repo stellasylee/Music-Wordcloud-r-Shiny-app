@@ -194,7 +194,7 @@ server <- function (input,output){
     v <- terms()
     word_counts<-as.data.frame(as.table(v))
     wordcloud2(word_counts, size = 1.6, fontFamily = "Courier",
-               color=rep_len(pal[2:4], nrow(word_counts)), backgroundColor = "black")
+               color=rep_len(pal[2:6], nrow(word_counts)), backgroundColor = "black")
   })
   
   # Make histogram of top 20 frequent words throughout decades
