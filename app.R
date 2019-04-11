@@ -1,5 +1,4 @@
 #Citation: https://shiny.rstudio.com/gallery/word-cloud.html
-#Citation: https://committedtotape.shinyapps.io/sixtyninelovesongs/
 #install.packages("dplyr")
 #install.packages("ggplot2")
 #install.packages("readr")
