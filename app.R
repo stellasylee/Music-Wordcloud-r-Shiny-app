@@ -1,4 +1,5 @@
 #Citation: https://shiny.rstudio.com/gallery/word-cloud.html
+#Citation: https://committedtotape.shinyapps.io/sixtyninelovesongs/
 #install.packages("dplyr")
 #install.packages("ggplot2")
 #install.packages("readr")
@@ -10,8 +11,6 @@
 #install.packages("tidytext")
 #install.packages("tidyverse")
 #install.packages("tm")
-#install.packages("visNetwork")
-#install.packages("wordcloud")
 #install.packages("wordcloud2")
 library(dplyr)     
 library(ggplot2)   
@@ -24,8 +23,6 @@ library(tidyr)
 library(tidytext)
 library(tidyverse)
 library(tm)        
-library(visNetwork)
-library(wordcloud)
 library(wordcloud2)
 
 #-------------------------------------------------------------------------------------------------------------------#
@@ -121,13 +118,13 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     br(),
                                     br(),
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
-                                        p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
-                                        p(strong("Data Sources:"), "INSERT LATER"),
-                                        p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
+                                        p(strong("R Packages:"), "diplyr, ggplot2, readr, RColorBrewer, shiny, stringr, tidygraph, tidyr, tidytext, tidyverse, tm, wordcloud2"),
+                                        p(strong("Data Sources:"), "Kaggle.com: Billboard Top 100 1964-2015 Songs, Lyrics"),
+                                        p("See", a("Our GitHub Repository", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
                  # Second Page  - Barplot Generator
                  tabPanel("Top Words by Decade",
-                          fluidPage(titlePanel("Decades Comparison"),
+                          fluidPage(titlePanel("Top Words by Decade"),
                                     sidebarLayout(
                                       sidebarPanel(
                                         selectInput("histYear", h3("Select Decade:"), 
@@ -191,8 +188,9 @@ server <- function (input,output){
   
   # Make histogram of top 20 frequent words throughout decades
   output$plot <- renderPlot({
-    barplot(getTop20CommonWords(input$histYear), angle = 45, col = pal, main="DECADE",ylab="Frequency in Top 100 Songs",xlab="Word",las=2)
-  }) #add option to plot log of y-axis
+    decade<-switch(input$histYear, "1965-1975", "1976-1985", "1986-1995", "1996-2005", "2006-2015")
+    barplot(getTop20CommonWords(input$histYear), angle = 45, col = pal, main=decade,ylab="Frequency in Top 100 Songs",xlab="Word",las=2)
+  }) 
 }
 
 # Run the app ----
