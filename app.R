@@ -58,9 +58,9 @@ artists<-unique(music$Artist)
 music$Lyrics<- as.character(music$Lyrics)
 for (i in 1:nrow(music)){
   # filter 
-  # 1. non-alphabetic letter and whitespace for distinguishing the words
+  # 1. non-alphabetic characters
   # 2. numbers
-  # 3. punctuations
+  # 3. punctuation
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
   # filter: stop words
   music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|(you )|( youre )|( you )|( when )|( your )|( it )|( its )|
@@ -108,8 +108,8 @@ pal <- c("black", "#02B845", "#f40506", "#ff9800", "#00b0f4","white")
 # Define UI----
 ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                  # First Page - Intro        
-                 tabPanel("Intro",
-                          fluidPage(h1("Our Project"),
+                 tabPanel("About the Project",
+                          fluidPage(h1("LyricsCloud"),
                                     br(),
                                     p(strong(em("\"A cool song quote...\""), "Source Song and Artist")),
                                     br(),
@@ -126,7 +126,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
                  # Second Page  - Barplot Generator
-                 tabPanel("Top 20 wordsfrom Different Decades",
+                 tabPanel("Top Words by Decade",
                           fluidPage(titlePanel("Decades Comparison"),
                                     sidebarLayout(
                                       sidebarPanel(
