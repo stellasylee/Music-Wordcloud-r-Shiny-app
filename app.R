@@ -112,7 +112,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                 \""))), 
                                     p(strong("Barry Manilow, I Write the Songs (1975)"))),
                           br(),
-                          p("For this project, we wanted to provide an rShiny interface for visualizing trends in the lyrics of popular american music over time. 
+                          p("For this project, we wanted to provide an rShiny interface for visualizing trends in the lyrics of popular music over time. 
                             By exploring some of the patterns of language use in the music most celebrated and consumed by the US audience, the user can learn about cultural values and movements."),
                           p("Our data deals with songs which were included in the Billboard Hot 100 list for the years between 1965 and 2015. 
                             We organized these by artist, by the decade they were released, and by the rank they reached."),
