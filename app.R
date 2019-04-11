@@ -27,6 +27,10 @@ library(wordcloud)
 library(wordcloud2)
 
 
+#-------------------------------------------------------------------------------------------------------------------#
+#                                         DATA WRANGLING & CLEANING                                                 #
+#-------------------------------------------------------------------------------------------------------------------#
+
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
 
