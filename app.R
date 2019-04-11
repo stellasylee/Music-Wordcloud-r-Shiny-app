@@ -158,7 +158,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                     min = 1, max = 100, value = c(1,100))
                                       ),
                                       mainPanel(
-                                        p(strong(em("\"...another song quote.\""), "Reference song and artist")),
+                                        p(strong(em("\"Sing with me, sing for the year Sing for the laughter, sing for the tear\""), "Aerosmith, Dream On (1973)")),
                                         p("Want to explore? Hover over the word cloud below...give directions here"),
                                         wordcloud2Output("wordcloud", width="100%", height = "565px")))))
                  
