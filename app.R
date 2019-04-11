@@ -218,7 +218,7 @@ server <- function (input,output){
     title<-switch(as.numeric(input$histYear),
                   "1965 - 1975", "1976 - 1985", "1986 - 1995", "1996 - 2005", "2006 - 2015")
     barplot(getTop20CommonWords(input$histYear),
-            angle = 45, col = c(pal[2], pal[2], pal[2], pal[2], pal[2], pal[3], pal[3], pal[3], pal[3], pal[3], pal[4], pal[4], pal[4], pal[4], pal[4], pal[5], pal[5], pal[5], pal[5], pal[5]), 
+            angle = 45, col = c(pal[3], pal[3], pal[3], pal[3], pal[3], pal[4], pal[4], pal[4], pal[4], pal[4], pal[5], pal[5], pal[5], pal[5], pal[5], pal[2], pal[2], pal[2], pal[2], pal[2]), 
             main=title,
             ylab="Frequency in Top 100 Songs",
             xlab="Word",las=2)
