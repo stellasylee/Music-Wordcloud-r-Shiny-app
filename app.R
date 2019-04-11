@@ -119,7 +119,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     br(),
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
                                         p(strong("R Packages:"), "diplyr, ggplot2, readr, RColorBrewer, shiny, stringr, tidygraph, tidyr, tidytext, tidyverse, tm, wordcloud2"),
-                                        p(strong("Data Sources:"), "Kaggle.com: Billboard Top 100 1964-2015 Songs, Lyrics"),
+                                        p(strong("Data Sources:"), a("Kaggle.com: Billboard Top 100 1964-2015 Songs, Lyrics"), href = "https://www.kaggle.com/rakannimer/billboard-lyrics?fbclid=IwAR326qyrozIoyPpLPyBtp7sym04ohJXNJSWfoWoqSlyb3LAsFyzzRHfvgH0"),
                                         p("See", a("Our GitHub Repository", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
                  # Second Page  - Barplot Generator
@@ -133,9 +133,10 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                                    "1986 - 1995" = 3,
                                                                    "1996 - 2005" = 4,
                                                                    "2006 - 2015" = 5),
-                                                    selected = 1)),
+                                                    selected = 1)
+                                        ),
                                       mainPanel(
-                                        p(strong(em("\"...another song quote.\""), "Reference song and artist")),
+                                        p(strong(em(paste("\"",output$quote,"\"")), output$artist)),
                                         plotOutput(outputId = "plot"))))),
                  # Third Page  - WordCloud Generator    
                  tabPanel("WordCloud Generator",
@@ -159,7 +160,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         p("Want to explore? Hover over the word cloud below...give directions here"),
                                         wordcloud2Output("wordcloud", width="100%", height = "565px")))))
-
+                 
 )
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
@@ -185,11 +186,33 @@ server <- function (input,output){
     wordcloud2(v, size = 1.6, fontFamily = "Courier",
                color=rep_len(pal[2:6], nrow(v)), backgroundColor = "black")
   })
+  output$quote <-renderText({ 
+    switch(as.numeric(input$histYear),
+                  "1965 - 1975",
+                  "1976 - 1985",
+                  "1986 - 1995", 
+                  "1996 - 2005",
+                  "2006 - 2015")
+  })
+  
+  output$artist <-renderText({ 
+    switch(as.numeric(input$histYear),
+           "1965 - 1975",
+           "1976 - 1985",
+           "1986 - 1995", 
+           "1996 - 2005",
+           "2006 - 2015")
+  })
   
   # Make histogram of top 20 frequent words throughout decades
   output$plot <- renderPlot({
-    decade<-switch(input$histYear, "1965 to 1975", "1976 to 1985", "1986 to 1995", "1996 to 2005", "2006 to 2015")
-    barplot(getTop20CommonWords(input$histYear), angle = 45, col = pal, main=decade,ylab="Frequency in Top 100 Songs",xlab="Word",las=2)
+    title<-switch(as.numeric(input$histYear),
+                   "1965 - 1975", "1976 - 1985", "1986 - 1995", "1996 - 2005", "2006 - 2015")
+    barplot(getTop20CommonWords(input$histYear),
+            angle = 45, col = pal, 
+            main=title,
+            ylab="Frequency in Top 100 Songs",
+            xlab="Word",las=2)
   }) 
 }
 
