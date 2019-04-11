@@ -151,10 +151,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         plotOutput(outputId = "plot"))
-                                    )
-                          )
-                 )
-)
+                                    ))))
 
 
 
