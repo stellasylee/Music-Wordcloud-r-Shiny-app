@@ -106,6 +106,7 @@ getTop20CommonWords <- function (decade){
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE USER INTERFACE                                                  #
 #--------------------------------------------------------------------------------------------------------------------#
+# Define UI----
 ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                  # First Page - Intro        
                  tabPanel("Intro",
@@ -121,12 +122,12 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     br(),
                                     br(),
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
-                                        p(strong("R Packages:"), "INSERT LATER."),
+                                        p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
                                         p(strong("Data Sources:"), "INSERT LATER"),
                                         p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
                  
-                 # Second Page  - WordCloud Generator                  
+                 # Second Page  - WordCloud Generator    
                  tabPanel("WordCloud Generator",
                           fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
                                     sidebarLayout(
@@ -142,21 +143,15 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                                           "2006 - 2015" = 5),
                                                            selected = c (1,2,3,4,5)),
                                         sliderInput("rank", h3("Rank selections:"),
-                                                    min = 1, max = 100, value = c(1,100)),
-                                        hr(),
-                                        sliderInput("freq",
-                                                    "Minimum Frequency:",
-                                                    min = 1,  max = 150, value = 70),
-                                        sliderInput("max",
-                                                    "Maximum Number of Words:",
-                                                    min = 1, max = 300, value = 100)
+                                                    min = 1, max = 100, value = c(1,100))
                                       ),
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         p("Want to explore? Hover over the word cloud below...give directions here"),
-                                        plotOutput("wordcloud", width="100%", height = "565px"))))),
+                                        wordcloud2Output("wordcloud", width="100%", height = "565px")))))
+                 ,
                  # Third Page  - Barplot Generator
-                 tabPanel("Top Words by Decade",
+                 tabPanel("Top 20 wordsfrom Different Decades",
                           fluidPage(titlePanel("Decades Comparison"),
                                     sidebarLayout(
                                       sidebarPanel(
@@ -170,10 +165,14 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         plotOutput(outputId = "plot"))
-                                    ))))
+                                    )
+                          )
+                 )
+)
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
 #--------------------------------------------------------------------------------------------------------------------#
+# Define server logic ----
 server <- function (input,output){
   # Define a reactive expression for the document term matrix
   terms <- reactive ({
@@ -188,7 +187,7 @@ server <- function (input,output){
     })
   })
   
- # Make the wordcloud drawing predictable during a session
+  # Make the wordcloud drawing predictable during a session
   output$wordcloud <- renderWordcloud2({
     v <- terms()
     #wordcloud2(names(v), v, scale = c(8, .2),
