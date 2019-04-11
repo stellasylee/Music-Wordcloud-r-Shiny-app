@@ -62,8 +62,13 @@ for (i in 1:nrow(music)){
   # 3. punctuations
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
   # filter: stop words
-  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|( youre )|( when )|( your )|( it )|( its )|( itself )|( what )|( who )|( which )|( this )|( that )|( these )|( those )|( am )|( is )|( are )|( was )|( were )|( be )|( been )|( a )|( an )|( the )|( and )|( but )|( if )|( or )|( because )|( as )|( until )|( while )|( of )|( at )|( by )|( for )|( with )|( about )|( to )|( then )|( so )|( than )"," ")
-}
+  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|( youre )|( when )|( your )|( it )|( its )|
+                                                  ( itself )|( what )|( who )|( which )|( this )|( that )|
+                                                   ( these )|( those )|( am )|( is )|( are )|( was )|( were )|
+                                                      ( be )|( been )|( a )|( an )|( the )|( and )|( but )|
+                                                      ( if )|( or )|( because )|( as )|( until )|( while )|
+                                                      ( of )|( at )|( by )|( for )|( with )|( about )|( to )|
+                                                    ( then )|( so )|( than )"," ")}
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
@@ -112,7 +117,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     br(),
                                     br(),
                                     div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
-                                        p(strong("R Packages:"), "tidyverse, tidytext, wordcloud2, tidygraph, vizNetwork, glue."),
+                                        p(strong("R Packages:"), "INSERT LATER."),
                                         p(strong("Data Sources:"), "INSERT LATER"),
                                         p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
