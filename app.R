@@ -140,8 +140,8 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                     selected = 1)
                                       ),
                                       mainPanel(
-                                        p(strong(em("\"The present now Will later be past/The order is rapidly fadin'.
-                                                    And the first one now Will later be last/for the times they are a-changin'.
+                                        p(strong(em("\"The present now will later be past/The order is rapidly fadin'.
+                                                    And the first one now will later be last/for the times they are a-changin'.
                                                     \""))), 
                                         p(strong(" - Bob Dylan, The Times They Are A-Changin' (1963)")),
                                         plotOutput(outputId = "plot"))))),
