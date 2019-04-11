@@ -113,9 +113,9 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                     p(strong("Barry Manilow, I Write the Songs (1975)"))),
                           br(),
                           p("For this project, we wanted to provide an rShiny interface for visualizing trends in the lyrics of popular american music over time. 
-By exploring some of the patterns of language use in the music most celebrated and consumed by the US audience, the user can learn about cultural values and movements."),
+                            By exploring some of the patterns of language use in the music most celebrated and consumed by the US audience, the user can learn about cultural values and movements."),
                           p("Our data deals with songs which were included in the Billboard Hot 100 list for the years between 1965 and 2015. 
-We organized these by artist, by the decade they were released, and by the rank they reached."),
+                            We organized these by artist, by the decade they were released, and by the rank they reached."),
                           br(),
                           br(),
                           div(img(src="http://people.ischool.berkeley.edu/~kbloom/music/assets/images/bh100.png", height = 239, width = 260), style="text-align: center;"),
@@ -126,47 +126,51 @@ We organized these by artist, by the decade they were released, and by the rank 
                               p(strong("Data Sources:"), a("Kaggle.com: Billboard Top 100 1964-2015 Songs, Lyrics"), href = "https://www.kaggle.com/rakannimer/billboard-lyrics?fbclid=IwAR326qyrozIoyPpLPyBtp7sym04ohJXNJSWfoWoqSlyb3LAsFyzzRHfvgH0"),
                               p("See", a("Our GitHub Repository", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                           )),
-# Second Page  - Barplot Generator
-tabPanel("Top Words by Decade",
-         fluidPage(titlePanel("Top Words by Decade"),
-                   sidebarLayout(
-                     sidebarPanel(
-                       selectInput("histYear", h3("Select Decade:"), 
-                                   choices = list("1965 - 1975" = 1,
-                                                  "1976 - 1985" = 2,
-                                                  "1986 - 1995" = 3,
-                                                  "1996 - 2005" = 4,
-                                                  "2006 - 2015" = 5),
-                                   selected = 1)
-                     ),
-                     mainPanel(
-                       plotOutput(outputId = "plot"))))),
-# Third Page  - WordCloud Generator    
-tabPanel("WordCloud Generator",
-         fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
-                   sidebarLayout(
-                     sidebarPanel(
-                       textInput("artist", "Type an artist:",
-                                 value = "Artist"),
-                       actionButton("update", "Change"),
-                       checkboxGroupInput("year", h3("Select your Decade(s):"),
-                                          choices = list("1965 - 1975" = 1,
-                                                         "1976 - 1985" = 2,
-                                                         "1986 - 1995" = 3,
-                                                         "1996 - 2005" = 4,
-                                                         "2006 - 2015" = 5),
-                                          selected = c (1,2,3,4,5)),
-                       sliderInput("rank", h3("Rank selections:"),
-                                   min = 1, max = 100, value = c(1,100))
-                     ),
-                     mainPanel(
-                       p(strong(em("\"Sing with me, sing for the year Sing for the laughter, sing for the tear
-                                                \""))), 
-                       p(strong(" - Aerosmith, Dream On (1973)")),
-                       p("Hover over the word cloud below to see their frequency in the Billboard Hot 100 Lyrics for your selection."),
-                       wordcloud2Output("wordcloud", width="100%", height = "565px"))))))
+                 # Second Page  - Barplot Generator
+                 tabPanel("Top Words by Decade",
+                          fluidPage(titlePanel("Top Words by Decade"),
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        selectInput("histYear", h3("Select Decade:"), 
+                                                    choices = list("1965 - 1975" = 1,
+                                                                   "1976 - 1985" = 2,
+                                                                   "1986 - 1995" = 3,
+                                                                   "1996 - 2005" = 4,
+                                                                   "2006 - 2015" = 5),
+                                                    selected = 1)
+                                      ),
+                                      mainPanel(
+                                        p(strong(em("\"The present now Will later be past/The order is rapidly fadin'.
+                                                    And the first one now Will later be last/for the times they are a-changin'.
+                                                    \""))), 
+                                        p(strong(" - Bob Dylan, The Times They Are A-Changin' (1963)")),
+                                        plotOutput(outputId = "plot"))))),
+                 # Third Page  - WordCloud Generator    
+                 tabPanel("WordCloud Generator",
+                          fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        textInput("artist", "Type an artist:",
+                                                  value = "Artist"),
+                                        actionButton("update", "Change"),
+                                        checkboxGroupInput("year", h3("Select your Decade(s):"),
+                                                           choices = list("1965 - 1975" = 1,
+                                                                          "1976 - 1985" = 2,
+                                                                          "1986 - 1995" = 3,
+                                                                          "1996 - 2005" = 4,
+                                                                          "2006 - 2015" = 5),
+                                                           selected = c (1,2,3,4,5)),
+                                        sliderInput("rank", h3("Rank selections:"),
+                                                    min = 1, max = 100, value = c(1,100))
+                                      ),
+                                      mainPanel(
+                                        p(strong(em("\"Sing with me, sing for the year Sing for the laughter, sing for the tear
+                                                    \""))), 
+                                        p(strong(" - Aerosmith, Dream On (1973)")),
+                                        p("Hover over the word cloud below to see their frequency in the Billboard Hot 100 Lyrics for your selection."),
+                                        wordcloud2Output("wordcloud", width="100%", height = "565px"))))))
 
-  
+
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
 #--------------------------------------------------------------------------------------------------------------------#
