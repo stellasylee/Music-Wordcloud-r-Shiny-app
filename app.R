@@ -125,31 +125,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p(strong("Data Sources:"), "INSERT LATER"),
                                         p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
-                 
-                 # Second Page  - WordCloud Generator    
-                 tabPanel("WordCloud Generator",
-                          fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
-                                    fluidRow(
-                                      column(3, 
-                                             textInput("artist", "Type an artist:",
-                                                          value = "Artist"),
-                                             actionButton("update", "Change"),
-                                             checkboxGroupInput("year", h3("Select your Decade(s):"),
-                                                                choices = list("1965 - 1975" = 1,
-                                                                               "1976 - 1985" = 2,
-                                                                               "1986 - 1995" = 3,
-                                                                               "1996 - 2005" = 4,
-                                                                               "2006 - 2015" = 5),
-                                                                selected = c (1,2,3,4,5)),
-                                             sliderInput("rank", h3("Rank selections:"),
-                                                         min = 1, max = 100, value = c(1,100))),
-                                      column(10,
-                                             wordcloud2Output("wordcloud", width="100%", height = "565px")),
-                                      column(4,
-                                             DT::dataTableOutput("counttable"))
-                                    )))
-                 ,
-                 # Third Page  - Barplot Generator
+                 # Second Page  - Barplot Generator
                  tabPanel("Top 20 wordsfrom Different Decades",
                           fluidPage(titlePanel("Decades Comparison"),
                                     sidebarLayout(
@@ -163,7 +139,31 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                     selected = 1)),
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
-                                        plotOutput(outputId = "plot"))))))
+                                        plotOutput(outputId = "plot"))))),
+                 # Third Page  - WordCloud Generator    
+                 tabPanel("WordCloud Generator",
+                          fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        textInput("artist", "Type an artist:",
+                                                  value = "Artist"),
+                                        actionButton("update", "Change"),
+                                        checkboxGroupInput("year", h3("Select your Decade(s):"),
+                                                           choices = list("1965 - 1975" = 1,
+                                                                          "1976 - 1985" = 2,
+                                                                          "1986 - 1995" = 3,
+                                                                          "1996 - 2005" = 4,
+                                                                          "2006 - 2015" = 5),
+                                                           selected = c (1,2,3,4,5)),
+                                        sliderInput("rank", h3("Rank selections:"),
+                                                    min = 1, max = 100, value = c(1,100))
+                                      ),
+                                      mainPanel(
+                                        p(strong(em("\"...another song quote.\""), "Reference song and artist")),
+                                        p("Want to explore? Hover over the word cloud below...give directions here"),
+                                        wordcloud2Output("wordcloud", width="100%", height = "565px")))))
+
+)
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
 #--------------------------------------------------------------------------------------------------------------------#
@@ -186,14 +186,7 @@ server <- function (input,output){
   output$wordcloud <- renderWordcloud2({
     v <- terms()
     wordcloud2(v, size = 1.6, fontFamily = "Courier",
-               color=rep_len(pal[2:6], nrow(word_counts)), backgroundColor = "black")
-  })
-  
-   # Word search table
-  output$counttable <- DT::renderDataTable({
-    DT::datatable(terms(), options = list(lengthMenu = c(10, 20, 50), pageLength = 10),
-                  rownames = FALSE, colnames = c("Word", "Count"), class = 'compact',
-                  caption = 'Common words (e.g. the, is, at) are excluded')
+               color=rep_len(pal[2:6], nrow(v)), backgroundColor = "black")
   })
   
   # Make histogram of top 20 frequent words throughout decades
