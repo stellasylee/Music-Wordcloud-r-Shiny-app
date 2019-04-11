@@ -75,20 +75,16 @@ for (i in 1:nrow(music)){
 #filters the music$Lyrics column accordingly,
 #isolates the column of lyrics and concatenates all the character strings into one,
 #then creates a frequency table for the relevant words in it
-#used to generate wordclouds
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
-  if(artist!="Artist"){
-    if(length(grep(tolower(artist), music$Artist))<1) #if the artist doesn't appear in our data, it ignores that input
-      temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
-  }
+  if(artist!="Artist") temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
   temp<-filter(temp, Rank>=startRank)
   temp<-filter(temp, Rank<=endRank)
   text<-(paste(temp$Lyrics, collapse = ''))
   docs <- Corpus(VectorSource(text))
   dtm <- TermDocumentMatrix(docs)
   m <- as.matrix(dtm)
-  sort(rowSums(m),decreasing=TRUE)
+  as.data.frame(as.table(sort(rowSums(m),decreasing=TRUE)))
 }
 
 #getTop20CommonWords: takes in decade,
@@ -133,25 +129,26 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                  # Second Page  - WordCloud Generator    
                  tabPanel("WordCloud Generator",
                           fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
-                                    sidebarLayout(
-                                      sidebarPanel(
-                                        textInput("artist", "Type an artist:",
-                                                  value = "Artist"),
-                                        actionButton("update", "Change"),
-                                        checkboxGroupInput("year", h3("Select your Decade(s):"),
-                                                           choices = list("1965 - 1975" = 1,
-                                                                          "1976 - 1985" = 2,
-                                                                          "1986 - 1995" = 3,
-                                                                          "1996 - 2005" = 4,
-                                                                          "2006 - 2015" = 5),
-                                                           selected = c (1,2,3,4,5)),
-                                        sliderInput("rank", h3("Rank selections:"),
-                                                    min = 1, max = 100, value = c(1,100))
-                                      ),
-                                      mainPanel(
-                                        p(strong(em("\"...another song quote.\""), "Reference song and artist")),
-                                        p("Want to explore? Hover over the word cloud below...give directions here"),
-                                        wordcloud2Output("wordcloud", width="100%", height = "565px"))))),
+                                    fluidRow(
+                                      column(3, 
+                                             textInput("artist", "Type an artist:",
+                                                          value = "Artist"),
+                                             actionButton("update", "Change"),
+                                             checkboxGroupInput("year", h3("Select your Decade(s):"),
+                                                                choices = list("1965 - 1975" = 1,
+                                                                               "1976 - 1985" = 2,
+                                                                               "1986 - 1995" = 3,
+                                                                               "1996 - 2005" = 4,
+                                                                               "2006 - 2015" = 5),
+                                                                selected = c (1,2,3,4,5)),
+                                             sliderInput("rank", h3("Rank selections:"),
+                                                         min = 1, max = 100, value = c(1,100))),
+                                      column(10,
+                                             wordcloud2Output("wordcloud", width="100%", height = "565px")),
+                                      column(4,
+                                             DT::dataTableOutput("counttable"))
+                                    )))
+                 ,
                  # Third Page  - Barplot Generator
                  tabPanel("Top 20 wordsfrom Different Decades",
                           fluidPage(titlePanel("Decades Comparison"),
@@ -188,9 +185,15 @@ server <- function (input,output){
   # Make the wordcloud drawing predictable during a session
   output$wordcloud <- renderWordcloud2({
     v <- terms()
-    word_counts<-as.data.frame(as.table(v))
-    wordcloud2(word_counts, size = 1.6, fontFamily = "Courier",
+    wordcloud2(v, size = 1.6, fontFamily = "Courier",
                color=rep_len(pal[2:6], nrow(word_counts)), backgroundColor = "black")
+  })
+  
+   # Word search table
+  output$counttable <- DT::renderDataTable({
+    DT::datatable(terms(), options = list(lengthMenu = c(10, 20, 50), pageLength = 10),
+                  rownames = FALSE, colnames = c("Word", "Count"), class = 'compact',
+                  caption = 'Common words (e.g. the, is, at) are excluded')
   })
   
   # Make histogram of top 20 frequent words throughout decades
