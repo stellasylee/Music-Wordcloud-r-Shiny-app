@@ -103,7 +103,7 @@ getTop20CommonWords <- function (decade){
   head((sort(rowSums(m),decreasing=TRUE)), 20)
 }
 
-# Billboard Color Palette
+# Billboard Color Palette (pulled from logo)
 pal <- c("black", "#02B845", "#f40506", "#ff9800", "#00b0f4","white")
 
 #--------------------------------------------------------------------------------------------------------------------#
@@ -166,11 +166,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                                     selected = 1)),
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
-                                        plotOutput(outputId = "plot"))
-                                    )
-                          )
-                 )
-)
+                                        plotOutput(outputId = "plot"))))))
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
 #--------------------------------------------------------------------------------------------------------------------#
