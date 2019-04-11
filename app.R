@@ -12,16 +12,16 @@
 #install.packages("visNetwork")
 #install.packages("wordcloud")
 #install.packages("wordcloud2")
-library(dplyr)     # contains functions for data manipulation
-library(ggplot2)   # for plotting
-library(readr)     # a package for parsing data
+library(dplyr)     
+library(ggplot2)   
+library(readr)     
 library(shiny)
 library(stringr)
 library(tidygraph)
-library(tidyr)     # contains tools to tidy data
+library(tidyr)     
 library(tidytext)
 library(tidyverse)
-library(tm)        # text mining library
+library(tm)        
 library(visNetwork)
 library(wordcloud)
 library(wordcloud2)
