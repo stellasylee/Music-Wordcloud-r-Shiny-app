@@ -7,19 +7,20 @@
 #install.packages ("tm")
 #install.packages ("wordcloud")
 #install.packages("textreg")
-library(tidyr)     # contains tools to tidy data
+library(dplyr)     # contains functions for data manipulation
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
-library(dplyr)     # contains functions for data manipulation
-library(tm)        # text mining library
-library(wordcloud)
-library(stringr)
 library(shiny)
-library(tidyverse)
-library(tidytext)
+library(stringr)
 library(tidygraph)
-library(wordcloud2)
+library(tidyr)     # contains tools to tidy data
+library(tidytext)
+library(tidyverse)
+library(tm)        # text mining library
 library(visNetwork)
+library(wordcloud)
+library(wordcloud2)
+
 
 #Import Data
 music <- read.csv("https://raw.githubusercontent.com/stellasylee/Music-Wordcloud-r-Shiny-app/master/data/billboard_lyrics_1964-2015.csv")
