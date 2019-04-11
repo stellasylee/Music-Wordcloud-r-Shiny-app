@@ -192,9 +192,9 @@ server <- function (input,output){
   # Make the wordcloud drawing predictable during a session
   output$wordcloud <- renderWordcloud2({
     v <- terms()
-    #wordcloud2(names(v), v, scale = c(8, .2),
-    #          min.freq = input$freq, max.words = input$max)
-    wordcloud2(as.data.frame(as.table(v)))
+    word_counts<-as.data.frame(as.table(v))
+    wordcloud2(word_counts, size = 1.6, fontFamily = "Courier",
+               color=rep_len(pal[2:4], nrow(word_counts())), backgroundColor = "black")
   })
   
   # Make histogram of top 20 frequent words throughout decades
