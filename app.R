@@ -63,7 +63,7 @@ for (i in 1:nrow(music)){
   # 3. punctuations
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
   # filter: stop words
-  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|( youre )|( when )|( your )|( it )|( its )|
+  music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|(you )|( youre )|( you )|( when )|( your )|( it )|( its )|
                                     ( itself )|( what )|( who )|( which )|( this )|( that )|
                                     ( these )|( those )|( am )|( is )|( are )|( was )|( were )|
                                     ( be )|( been )|( a )|( an )|( the )|( and )|( but )|
