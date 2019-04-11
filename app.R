@@ -64,12 +64,12 @@ for (i in 1:nrow(music)){
   music$Lyrics[i]<- str_remove_all(music$Lyrics[i], "[^a-z ]")
   # filter: stop words
   music$Lyrics[i]<- str_replace_all(music$Lyrics[i], "(the )|( youre )|( when )|( your )|( it )|( its )|
-                                                  ( itself )|( what )|( who )|( which )|( this )|( that )|
-                                                   ( these )|( those )|( am )|( is )|( are )|( was )|( were )|
-                                                      ( be )|( been )|( a )|( an )|( the )|( and )|( but )|
-                                                      ( if )|( or )|( because )|( as )|( until )|( while )|
-                                                      ( of )|( at )|( by )|( for )|( with )|( about )|( to )|
-                                                    ( then )|( so )|( than )"," ")}
+                                    ( itself )|( what )|( who )|( which )|( this )|( that )|
+                                    ( these )|( those )|( am )|( is )|( are )|( was )|( were )|
+                                    ( be )|( been )|( a )|( an )|( the )|( and )|( but )|
+                                    ( if )|( or )|( because )|( as )|( until )|( while )|
+                                    ( of )|( at )|( by )|( for )|( with )|( about )|( to )|
+                                    ( then )|( so )|( than )"," ")}
 
 #getFreqMatrix: takes selections for artist, decade, and start and end ranks,
 #filters the music$Lyrics column accordingly,
@@ -80,7 +80,7 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
   if(artist!="Artist"){
     if(length(grep(tolower(artist), music$Artist))<1) #if the artist doesn't appear in our data, it ignores that input
-  temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
+      temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
   }
   temp<-filter(temp, Rank>=startRank)
   temp<-filter(temp, Rank<=endRank)
@@ -199,8 +199,8 @@ server <- function (input,output){
   
   # Make histogram of top 20 frequent words throughout decades
   output$plot <- renderPlot({
-    barplot(getTop20CommonWords(input$histYear))
-  })
+    barplot(getTop20CommonWords(input$histYear), angle = 45, col = pal, main="DECADE",ylab="Frequency in Top 100 Songs",xlab="Word",las=2)
+  }) #add option to plot log of y-axis
 }
 
 # Run the app ----
