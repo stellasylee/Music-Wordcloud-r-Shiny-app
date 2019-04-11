@@ -79,7 +79,7 @@ for (i in 1:nrow(music)){
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
   if(artist!="Artist"){
-    if(length(grep(tolower(artist), music$Artist))<1)
+    if(length(grep(tolower(artist), music$Artist))<1) #if the artist doesn't appear in our data, it ignores that input
   temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
   }
   temp<-filter(temp, Rank>=startRank)
@@ -148,8 +148,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         p("Want to explore? Hover over the word cloud below...give directions here"),
-                                        wordcloud2Output("wordcloud", width="100%", height = "565px")))))
-                 ,
+                                        wordcloud2Output("wordcloud", width="100%", height = "565px"))))),
                  # Third Page  - Barplot Generator
                  tabPanel("Top 20 wordsfrom Different Decades",
                           fluidPage(titlePanel("Decades Comparison"),
