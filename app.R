@@ -188,7 +188,7 @@ server <- function (input,output){
   
   # Make histogram of top 20 frequent words throughout decades
   output$plot <- renderPlot({
-    decade<-switch(input$histYear, "1965-1975", "1976-1985", "1986-1995", "1996-2005", "2006-2015")
+    decade<-switch(input$histYear, "1965 to 1975", "1976 to 1985", "1986 to 1995", "1996 to 2005", "2006 to 2015")
     barplot(getTop20CommonWords(input$histYear), angle = 45, col = pal, main=decade,ylab="Frequency in Top 100 Songs",xlab="Word",las=2)
   }) 
 }
