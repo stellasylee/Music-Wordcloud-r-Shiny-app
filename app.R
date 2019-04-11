@@ -109,60 +109,61 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                           fluidPage(h1("LyricsCloud"),
                                     br(),
                                     p(strong(em("\"I write the songs that make the whole world sing/I write the songs of love and special things
-\"")), "Barry Manilow, I Write the Songs (1975)")),
-                                    br(),
-                                    p("A paragraph explanation"),
-                                    p("Another paragraph explanation"),
-                                    br(),
-                                    br(),
-                                    div(img(src="http://people.ischool.berkeley.edu/~kbloom/music/assets/images/bh100.png", height = 239, width = 260), style="text-align: center;"),
-                                    br(),
-                                    br(),
-                                    div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
-                                        p(strong("R Packages:"), "diplyr, ggplot2, readr, RColorBrewer, shiny, stringr, tidygraph, tidyr, tidytext, tidyverse, tm, wordcloud2"),
-                                        p(strong("Data Sources:"), a("Kaggle.com: Billboard Top 100 1964-2015 Songs, Lyrics"), href = "https://www.kaggle.com/rakannimer/billboard-lyrics?fbclid=IwAR326qyrozIoyPpLPyBtp7sym04ohJXNJSWfoWoqSlyb3LAsFyzzRHfvgH0"),
-                                        p("See", a("Our GitHub Repository", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
-                                    ))),
-                 # Second Page  - Barplot Generator
-                 tabPanel("Top Words by Decade",
-                          fluidPage(titlePanel("Top Words by Decade"),
-                                    sidebarLayout(
-                                      sidebarPanel(
-                                        selectInput("histYear", h3("Select Decade:"), 
-                                                    choices = list("1965 - 1975" = 1,
-                                                                   "1976 - 1985" = 2,
-                                                                   "1986 - 1995" = 3,
-                                                                   "1996 - 2005" = 4,
-                                                                   "2006 - 2015" = 5),
-                                                    selected = 1)
-                                        ),
-                                      mainPanel(
-                                        p(strong(em(paste("\"",output$quote,"\"")), output$artist)),
-                                        plotOutput(outputId = "plot"))))),
-                 # Third Page  - WordCloud Generator    
-                 tabPanel("WordCloud Generator",
-                          fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
-                                    sidebarLayout(
-                                      sidebarPanel(
-                                        textInput("artist", "Type an artist:",
-                                                  value = "Artist"),
-                                        actionButton("update", "Change"),
-                                        checkboxGroupInput("year", h3("Select your Decade(s):"),
-                                                           choices = list("1965 - 1975" = 1,
-                                                                          "1976 - 1985" = 2,
-                                                                          "1986 - 1995" = 3,
-                                                                          "1996 - 2005" = 4,
-                                                                          "2006 - 2015" = 5),
-                                                           selected = c (1,2,3,4,5)),
-                                        sliderInput("rank", h3("Rank selections:"),
-                                                    min = 1, max = 100, value = c(1,100))
-                                      ),
-                                      mainPanel(
-                                        p(strong(em("\"Sing with me, sing for the year Sing for the laughter, sing for the tear\""), "Aerosmith, Dream On (1973)")),
-                                        p("Want to explore? Hover over the word cloud below...give directions here"),
-                                        wordcloud2Output("wordcloud", width="100%", height = "565px")))))
-                 
-)
+                                                \""), "Barry Manilow, I Write the Songs (1975)"))),
+                          br(),
+                          p("A paragraph explanation"),
+                          p("Another paragraph explanation"),
+                          br(),
+                          br(),
+                          div(img(src="http://people.ischool.berkeley.edu/~kbloom/music/assets/images/bh100.png", height = 239, width = 260), style="text-align: center;"),
+                          br(),
+                          br(),
+                          div(p(strong("Built by"),  "LaAnna Farnelli and Stella Lee"), 
+                              p(strong("R Packages:"), "diplyr, ggplot2, readr, RColorBrewer, shiny, stringr, tidygraph, tidyr, tidytext, tidyverse, tm, wordcloud2"),
+                              p(strong("Data Sources:"), a("Kaggle.com: Billboard Top 100 1964-2015 Songs, Lyrics"), href = "https://www.kaggle.com/rakannimer/billboard-lyrics?fbclid=IwAR326qyrozIoyPpLPyBtp7sym04ohJXNJSWfoWoqSlyb3LAsFyzzRHfvgH0"),
+                              p("See", a("Our GitHub Repository", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
+                          )),
+# Second Page  - Barplot Generator
+tabPanel("Top Words by Decade",
+         fluidPage(titlePanel("Top Words by Decade"),
+                   sidebarLayout(
+                     sidebarPanel(
+                       selectInput("histYear", h3("Select Decade:"), 
+                                   choices = list("1965 - 1975" = 1,
+                                                  "1976 - 1985" = 2,
+                                                  "1986 - 1995" = 3,
+                                                  "1996 - 2005" = 4,
+                                                  "2006 - 2015" = 5),
+                                   selected = 1)
+                     ),
+                     mainPanel(
+                       plotOutput(outputId = "plot"))))),
+# Third Page  - WordCloud Generator    
+tabPanel("WordCloud Generator",
+         fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
+                   sidebarLayout(
+                     sidebarPanel(
+                       textInput("artist", "Type an artist:",
+                                 value = "Artist"),
+                       actionButton("update", "Change"),
+                       checkboxGroupInput("year", h3("Select your Decade(s):"),
+                                          choices = list("1965 - 1975" = 1,
+                                                         "1976 - 1985" = 2,
+                                                         "1986 - 1995" = 3,
+                                                         "1996 - 2005" = 4,
+                                                         "2006 - 2015" = 5),
+                                          selected = c (1,2,3,4,5)),
+                       sliderInput("rank", h3("Rank selections:"),
+                                   min = 1, max = 100, value = c(1,100))
+                     ),
+                     mainPanel(
+                       p(strong(em("\"Sing with me, sing for the year Sing for the laughter, sing for the tear
+                                                \""))), 
+                       p(strong(" - Aerosmith, Dream On (1973)")),
+                       p("Hover over the word cloud below to see their frequency in the Billboard Hot 100 Lyrics for your selection."),
+                       wordcloud2Output("wordcloud", width="100%", height = "565px"))))))
+
+  
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
 #--------------------------------------------------------------------------------------------------------------------#
@@ -189,11 +190,11 @@ server <- function (input,output){
   })
   output$quote <-renderText({ 
     switch(as.numeric(input$histYear),
-                  "1965 - 1975",
-                  "1976 - 1985",
-                  "1986 - 1995", 
-                  "1996 - 2005",
-                  "2006 - 2015")
+           "1965 - 1975",
+           "1976 - 1985",
+           "1986 - 1995", 
+           "1996 - 2005",
+           "2006 - 2015")
   })
   
   output$artist <-renderText({ 
@@ -208,7 +209,7 @@ server <- function (input,output){
   # Make histogram of top 20 frequent words throughout decades
   output$plot <- renderPlot({
     title<-switch(as.numeric(input$histYear),
-                   "1965 - 1975", "1976 - 1985", "1986 - 1995", "1996 - 2005", "2006 - 2015")
+                  "1965 - 1975", "1976 - 1985", "1986 - 1995", "1996 - 2005", "2006 - 2015")
     barplot(getTop20CommonWords(input$histYear),
             angle = 45, col = pal, 
             main=title,
