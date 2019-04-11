@@ -2,6 +2,7 @@
 #install.packages("dplyr")
 #install.packages("ggplot2")
 #install.packages("readr")
+#install.packages("RColorBrewer") 
 #install.packages("shiny")
 #install.packages("stringr")
 #install.packages("tidygraph")
