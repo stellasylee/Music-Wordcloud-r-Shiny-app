@@ -15,10 +15,6 @@ This r shiny app creates
   * Range of rankings in the Billboard Yearly Chart (1 - 100)
 from the dataset.
 
-The user is also allowed to change 
-  * Minimum word frequency to be on word cloud
-  * Maximum number of words in the word cloud
-
 2. Barplot of 20 most frequent words within decades
   The user is allowed to change:
   * Decade
