@@ -41,10 +41,10 @@ music$Decade[music$Year<1975]<-1
 #Filter out instrumental songs
 music<-filter(music, Lyrics!="instrumental")
 
-##List of Artists used for searching valid artist input
+#Save a list of unique artists and artist combos
 artists<-unique(music$Artist)
 
-# Cleaning the lyrics for filtering valid lyrics words
+# Cleaning the lyrics
 music$Lyrics<- as.character(music$Lyrics)
 for (i in 1:nrow(music)){
   # filter 
@@ -60,6 +60,7 @@ for (i in 1:nrow(music)){
 #filters the music$Lyrics column accordingly,
 #isolates the column of lyrics and concatenates all the character strings into one,
 #then creates a frequency table for the relevant words in it
+#used to generate wordclouds
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
   if(artist!="Artist") temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
@@ -72,8 +73,9 @@ getFreqMatrix<-function(artist, decade, startRank, endRank){
   sort(rowSums(m),decreasing=TRUE)
 }
 
-#getTop20CommonWords: takes decade
-#Creates frequency table for the decade, used only for decade barplot
+#getTop20CommonWords: takes in decade,
+#creates frequency table for most popular words 
+#used to generate barplots
 getTop20CommonWords <- function (decade){
   temp <- filter (music, music$Decade == decade)
   text<-(paste(temp$Lyrics, collapse = ''))
@@ -83,7 +85,9 @@ getTop20CommonWords <- function (decade){
   head((sort(rowSums(m),decreasing=TRUE)), 20)
 }
 
-# Define UI----
+#--------------------------------------------------------------------------------------------------------------------#
+#                                             DEFINE USER INTERFACE                                                  #
+#--------------------------------------------------------------------------------------------------------------------#
 ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                  # First Page - Intro        
                  tabPanel("Intro",
@@ -104,9 +108,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p("See", a("Our GitHub Repo", href = "https://github.com/stellasylee/Music-Wordcloud-r-Shiny-app"), "for more information")
                                     ))),
                  
-                 # Second Page  - WordCloud Generator 
-                 
-                 
+                 # Second Page  - WordCloud Generator                  
                  tabPanel("WordCloud Generator",
                           fluidPage(titlePanel("Wordcloud for Billboard Chart Top 100"),
                                     sidebarLayout(
@@ -134,8 +136,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                       mainPanel(
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         p("Want to explore? Hover over the word cloud below...give directions here"),
-                                        plotOutput("wordcloud", width="100%", height = "565px")))))
-                 ,
+                                        plotOutput("wordcloud", width="100%", height = "565px"))))),
                  # Third Page  - Barplot Generator
                  tabPanel("Top 20 wordsfrom Different Decades",
                           fluidPage(titlePanel("Decades Comparison"),
@@ -152,12 +153,9 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p(strong(em("\"...another song quote.\""), "Reference song and artist")),
                                         plotOutput(outputId = "plot"))
                                     ))))
-
-
-
-
-
-# Define server logic ----
+#--------------------------------------------------------------------------------------------------------------------#
+#                                             DEFINE SERVER LOGIC                                                    #
+#--------------------------------------------------------------------------------------------------------------------#
 server <- function (input,output){
   # Define a reactive expression for the document term matrix
   terms <- reactive ({
