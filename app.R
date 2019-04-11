@@ -152,7 +152,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                                         p("Want to explore? Hover over the word cloud below...give directions here"),
                                         plotOutput("wordcloud", width="100%", height = "565px"))))),
                  # Third Page  - Barplot Generator
-                 tabPanel("Top 20 wordsfrom Different Decades",
+                 tabPanel("Top Words by Decade",
                           fluidPage(titlePanel("Decades Comparison"),
                                     sidebarLayout(
                                       sidebarPanel(
