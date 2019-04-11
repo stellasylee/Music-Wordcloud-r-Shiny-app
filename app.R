@@ -1,12 +1,17 @@
 #Citation: https://shiny.rstudio.com/gallery/word-cloud.html
-#install.packages("wordcloud")
 #install.packages("dplyr")
-#install.packages("tidyr")
 #install.packages("ggplot2")
 #install.packages("readr")
-#install.packages ("tm")
-#install.packages ("wordcloud")
-#install.packages("textreg")
+#install.packages("shiny")
+#install.packages("stringr")
+#install.packages("tidygraph")
+#install.packages("tidyr")
+#install.packages("tidytext")
+#install.packages("tidyverse")
+#install.packages("tm")
+#install.packages("visNetwork")
+#install.packages("wordcloud")
+#install.packages("wordcloud2")
 library(dplyr)     # contains functions for data manipulation
 library(ggplot2)   # for plotting
 library(readr)     # a package for parsing data
