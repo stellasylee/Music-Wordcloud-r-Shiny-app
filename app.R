@@ -101,7 +101,7 @@ pal <- c("black", "#02B845", "#f40506", "#ff9800", "#00b0f4","white")
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE USER INTERFACE                                                  #
 #--------------------------------------------------------------------------------------------------------------------#
-# Define UI----
+
 ui <- navbarPage(inverse = TRUE, "LyricsCloud",
                  # First Page - Intro        
                  tabPanel("About the Project",
@@ -173,7 +173,7 @@ ui <- navbarPage(inverse = TRUE, "LyricsCloud",
 #--------------------------------------------------------------------------------------------------------------------#
 #                                             DEFINE SERVER LOGIC                                                    #
 #--------------------------------------------------------------------------------------------------------------------#
-# Define server logic ----
+
 server <- function (input,output){
   # Define a reactive expression for the document term matrix
   terms <- reactive ({
