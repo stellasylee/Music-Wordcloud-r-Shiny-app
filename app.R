@@ -73,7 +73,7 @@ for (i in 1:nrow(music)){
 #then creates a frequency table for the relevant words in it
 getFreqMatrix<-function(artist, decade, startRank, endRank){
   temp<-filter(music, Decade%in%decade) #keeps cases where the Decade is in the list decade
-  if(artist!="Artist") temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)])
+  if(artist!="Artist") temp<-filter(temp, Artist%in%artists[grep(tolower(artist), music$Artist)]) #checking if artist selection is relevant
   temp<-filter(temp, Rank>=startRank)
   temp<-filter(temp, Rank<=endRank)
   text<-(paste(temp$Lyrics, collapse = ''))
@@ -210,7 +210,8 @@ server <- function (input,output){
            "1986 - 1995", 
            "1996 - 2005",
            "2006 - 2015")
-  })
+  }) #fails on more recent artists?
+     #successful tests include: "Abba," "elton john," "beatles," "aerosmith," "johnny cash," 
   
   # Make histogram of top 20 frequent words throughout decades
   output$plot <- renderPlot({
